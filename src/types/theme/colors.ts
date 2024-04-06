@@ -11,9 +11,13 @@ export type Colors = {
   warning: ColorWithShades;
   info: ColorWithShades;
   success: ColorWithShades;
+  background: {
+    default: string;
+  };
   text: {
     primary: string;
     secondary: string;
     disabled: string;
   };
+  border: string;
 };

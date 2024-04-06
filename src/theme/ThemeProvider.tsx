@@ -1,6 +1,7 @@
 import React, {
   PropsWithChildren,
   createContext,
+  useCallback,
   useMemo,
   useState,
 } from 'react';
@@ -10,26 +11,32 @@ import { createTheme } from './create-theme';
 
 type Context = Theme & {
   changeTheme: (variant: Variant) => void;
+  variant: Variant;
 };
 
 export const ThemeContext = createContext<Context | undefined>(undefined);
 
 export function ThemeProvider({ children }: PropsWithChildren) {
-  const isDarkMode = useColorScheme() === 'dark';
-  const [variant, setVariant] = useState<Variant>(
-    isDarkMode ? 'dark' : 'light',
+  const colorScheme = useColorScheme();
+  const defaultVariant = useMemo<Variant>(() => colorScheme === 'dark' ? 'dark' : 'light', [colorScheme]);
+  const [variant, setVariant] = useState<Variant>('auto');
+
+  const changeTheme = useCallback((nextVariant: Variant) =>
+    setVariant(nextVariant), [defaultVariant]
   );
 
-  const changeTheme = (nextVariant: Variant) => {
-    setVariant(nextVariant);
-  };
-
-  const theme = useMemo(() => createTheme(variant), [variant]);
+  const theme = useMemo(() => {
+    if (variant === 'auto') {
+      return createTheme(defaultVariant);
+    }
+    return createTheme(variant);
+  }, [variant]);
 
   const value = useMemo(
     () => ({
       ...theme,
       changeTheme,
+      variant,
     }),
     [theme],
   );

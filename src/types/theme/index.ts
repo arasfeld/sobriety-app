@@ -3,7 +3,7 @@ import type { Theme as NavigationTheme } from '@react-navigation/native';
 import type { Colors } from './colors';
 import type { Typography } from './typography';
 
-export type Variant = 'light' | 'dark';
+export type Variant = 'auto' | 'light' | 'dark';
 
 export type Theme = {
   colors: Colors;

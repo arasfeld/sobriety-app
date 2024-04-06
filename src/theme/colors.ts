@@ -38,6 +38,7 @@ export const colors = {
       secondary: 'rgba(0, 0, 0, 0.6)',
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
+    border: 'rgba(0, 0, 0, 0.12)'
   },
   dark: {
     primary: {
@@ -78,5 +79,6 @@ export const colors = {
       secondary: 'rgba(255, 255, 255, 0.7)',
       disabled: 'rgba(255, 255, 255, 0.5)',
     },
+    border: 'rgba(255, 255, 255, 0.12)'
   },
 };
