@@ -20,4 +20,8 @@ export type Colors = {
     disabled: string;
   };
   border: string;
+  common: {
+    black: string;
+    white: string;
+  };
 };

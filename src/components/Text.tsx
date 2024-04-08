@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Text as RNText } from 'react-native';
+import { Text as RNText, TextStyle } from 'react-native';
 import { useTheme } from '@/theme';
 
 import type { PropsWithChildren } from 'react';
@@ -7,19 +7,21 @@ import type { PropsWithChildren } from 'react';
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 type Props = PropsWithChildren<{
+  color?: string;
   size: Size;
+  style?: TextStyle;
 }>;
 
-export function Text({ children, size }: Props) {
+export function Text({ children, color, size, style }: Props) {
   const { colors, typography } = useTheme();
 
-  const fontSize = useMemo(
-    () => typography.fontSizes[size],
-    [size, typography],
-  );
+  const styles = useMemo(() => [{
+    color: color || colors.text.primary,
+    fontSize: typography.fontSizes[size],
+  }, style], [size, style, typography]);
 
   return (
-    <RNText style={[{ color: colors.text.primary, fontSize }]}>
+    <RNText style={styles}>
       {children}
     </RNText>
   );

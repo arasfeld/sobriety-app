@@ -1,3 +1,8 @@
+const common = {
+  black: '#000',
+  white: '#fff',
+};
+
 export const colors = {
   light: {
     primary: {
@@ -38,7 +43,8 @@ export const colors = {
       secondary: 'rgba(0, 0, 0, 0.6)',
       disabled: 'rgba(0, 0, 0, 0.38)',
     },
-    border: 'rgba(0, 0, 0, 0.12)'
+    border: 'rgba(0, 0, 0, 0.12)',
+    common,
   },
   dark: {
     primary: {
@@ -79,6 +85,7 @@ export const colors = {
       secondary: 'rgba(255, 255, 255, 0.7)',
       disabled: 'rgba(255, 255, 255, 0.5)',
     },
-    border: 'rgba(255, 255, 255, 0.12)'
+    border: 'rgba(255, 255, 255, 0.12)',
+    common,
   },
 };
