@@ -2,12 +2,15 @@ import React, {
   PropsWithChildren,
   createContext,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useColorScheme } from 'react-native';
-import { Theme, Variant } from '@/types/theme';
 import { createTheme } from './create-theme';
+
+import type { MMKV } from 'react-native-mmkv';
+import type { Theme, Variant } from '@/types/theme';
 
 type Context = Theme & {
   changeTheme: (variant: Variant) => void;
@@ -16,14 +19,28 @@ type Context = Theme & {
 
 export const ThemeContext = createContext<Context | undefined>(undefined);
 
-export function ThemeProvider({ children }: PropsWithChildren) {
+type Props = PropsWithChildren<{
+	storage: MMKV;
+}>;
+
+export function ThemeProvider({ children, storage }: Props) {
   const colorScheme = useColorScheme();
   const defaultVariant = useMemo<Variant>(() => colorScheme === 'dark' ? 'dark' : 'light', [colorScheme]);
-  const [variant, setVariant] = useState<Variant>('auto');
+  const [variant, setVariant] = useState<Variant>((storage.getString('theme') as Variant) || 'auto');
 
-  const changeTheme = useCallback((nextVariant: Variant) =>
-    setVariant(nextVariant), [defaultVariant]
-  );
+  // initialize theme at default if not defined
+	useEffect(() => {
+		const appHasThemeDefined = storage.contains('theme');
+		if (!appHasThemeDefined) {
+			storage.set('theme', 'auto');
+			setVariant('auto');
+		}
+	}, []);
+
+  const changeTheme = useCallback((nextVariant: Variant) => {
+    setVariant(nextVariant);
+    storage.set('theme', nextVariant);
+  }, [defaultVariant, storage]);
 
   const theme = useMemo(() => {
     if (variant === 'auto') {

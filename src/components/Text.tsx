@@ -18,7 +18,7 @@ export function Text({ children, color, size, style }: Props) {
   const styles = useMemo(() => [{
     color: color || colors.text.primary,
     fontSize: typography.fontSizes[size],
-  }, style], [size, style, typography]);
+  }, style], [color, colors, size, style, typography]);
 
   return (
     <RNText style={styles}>
